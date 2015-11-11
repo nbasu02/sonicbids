@@ -23,7 +23,7 @@ def display_difference():
     '''
     try:
         number = int(request.args.get('number'))
-    except TypeError:
+    except (TypeError, ValueError):
         return jsonify(**{
             'message': 'Please provide a number',
             'code': ErrorCode.NO_NUMBER
