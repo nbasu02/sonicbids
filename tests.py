@@ -25,12 +25,56 @@ class BaseTest(unittest.TestCase):
         db.drop_all()
 
 class TestNumberRecord(BaseTest):
-    def test_sum_of_squares(self):
+    def test_sum_of_squares_small(self):
+        record = NumberRecord(number=3)
+        self.assertEqual(
+            record.sum_of_squares(),
+            14
+            )
+
+    def test_sum_of_squares_bigger(self):
         record = NumberRecord(number=10)
         self.assertEqual(
             record.sum_of_squares(),
             385
             )
+
+    def test_sum_of_squares_out_of_range(self):
+        record = NumberRecord(number=0)
+        self.assertIsNone(record.sum_of_squares())
+
+    def test_square_of_sum_small(self):
+        record = NumberRecord(number=3)
+        self.assertEqual(
+            record.square_of_sum(),
+            36
+            )
+
+    def test_square_of_sum_bigger(self):
+        record = NumberRecord(number=10)
+        self.assertEqual(
+            record.square_of_sum(),
+            3025
+            )
+
+    def test_square_of_sum_out_of_range(self):
+        record = NumberRecord(number=0)
+        self.assertIsNone(record.square_of_sum())
+
+    def test_set_value_small(self):
+        record = NumberRecord(number=3)
+        record.set_value()
+        self.assertEqual(record.value, 22)
+
+    def test_set_value_bigger(self):
+        record = NumberRecord(number=10)
+        record.set_value()
+        self.assertEqual(record.value, 2640)
+
+    def test_set_value_out_of_range(self):
+        record = NumberRecord(number=0)
+        record.set_value()
+        self.assertIsNone(record.value)
 
 class TestView(BaseTest):
     def test_display_difference_normal(self):
@@ -90,3 +134,23 @@ class TestView(BaseTest):
         # Make sure a message and error code are correctly returned
         self.assertIn('message', output)
         self.assertEqual(output['code'], ErrorCode.NO_NUMBER)
+
+    def test_display_difference_greater_than_100(self):
+        # out of range
+        response = self.app.get('/difference?number=101')
+        self.assertEqual(response.status_code, 200)
+
+        output = json.loads(response.data)
+        # Make sure a message and error code are correctly returned
+        self.assertIn('message', output)
+        self.assertEqual(output['code'], ErrorCode.OUT_OF_RANGE)
+
+    def test_display_difference_less_than_1(self):
+        # out of range
+        response = self.app.get('/difference?number=0')
+        self.assertEqual(response.status_code, 200)
+
+        output = json.loads(response.data)
+        # Make sure a message and error code are correctly returned
+        self.assertIn('message', output)
+        self.assertEqual(output['code'], ErrorCode.OUT_OF_RANGE)

@@ -28,15 +28,25 @@ class NumberRecord(Base):
         Uses the formula found here:
         www.trans4mind.com/personal_development/mathematics/series/sumNaturalSquares.htm
         The formula is (n^3)/3 + (n^2)/2 + n/6 == sum of first n natural numbers squared
+
+        Returns None if self.number < 1
         '''
 
+        if self.number < 1:
+            # Invalid
+            return None
         formula = lambda num: int(pow(num, 3)/3.0 + pow(num, 2)/2.0 + num/6.0)
         return formula(self.number)
 
     def square_of_sum(self):
         '''
         Find square of sum of 1 to self.number
+
+        Returns None if self.number < 1
         '''
+
+        if self.number < 1:
+            return None
 
         formula = lambda num: pow((num*(num+1))/2, 2)
         return formula(self.number)
@@ -46,9 +56,14 @@ class NumberRecord(Base):
         Sets self.value equal to the difference between
         the square of the sum of all numbers up to self.number and
         the sum of all squares up to self.number
+
+        If self.number < 1, set self.value to None
         '''
 
-        self.value = self.square_of_sum() - self.sum_of_squares()
+        if self.number < 1:
+            self.value = None
+        else:
+            self.value = self.square_of_sum() - self.sum_of_squares()
 
     def to_json(self):
         return {
