@@ -10,6 +10,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = \
         'database_name': Config.DATABASE_URI
     }
 
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
 if __name__ == '__main__':
     from models import *
     from views import *
