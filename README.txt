@@ -52,4 +52,5 @@ A decorator could be a solution, but needs to be sure it doesn't commit bad data
 
 - Structured directories.  I'm new to flask and couldn't quite figure out how
 to structure the files outside of a flat directory and make the imports work
-correctly
+correctly without having to install the app as a package (maybe that's the
+solution?)
