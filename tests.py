@@ -39,6 +39,14 @@ class TestNumberRecord(BaseTest):
             385
             )
 
+    def test_sum_of_squares_huge(self):
+        # Model supports numbers > 100.  Frontend does not
+        record = NumberRecord(number=101)
+        self.assertEqual(
+            record.sum_of_squares(),
+            348551
+            )
+
     def test_sum_of_squares_out_of_range(self):
         record = NumberRecord(number=0)
         self.assertIsNone(record.sum_of_squares())
@@ -57,6 +65,13 @@ class TestNumberRecord(BaseTest):
             3025
             )
 
+    def test_square_of_sum_huge(self):
+        record = NumberRecord(number=101)
+        self.assertEqual(
+            record.square_of_sum(),
+            26532801
+            )
+
     def test_square_of_sum_out_of_range(self):
         record = NumberRecord(number=0)
         self.assertIsNone(record.square_of_sum())
@@ -70,6 +85,11 @@ class TestNumberRecord(BaseTest):
         record = NumberRecord(number=10)
         record.set_value()
         self.assertEqual(record.value, 2640)
+
+    def test_set_value_huge(self):
+        record = NumberRecord(number=101)
+        record.set_value()
+        self.assertEqual(record.value, 26184250)
 
     def test_set_value_out_of_range(self):
         record = NumberRecord(number=0)
